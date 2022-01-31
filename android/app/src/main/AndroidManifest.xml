@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.clone.netflix.netflix_ui_clone_flutter">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="netflix_ui_clone_flutter"
         android:name="${applicationName}"
