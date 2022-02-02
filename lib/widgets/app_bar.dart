@@ -9,37 +9,34 @@ class MyAppBar extends StatelessWidget {
   final double scrollOffset;
 
   @override
-  PreferredSizeWidget build(BuildContext context) {
-    return PreferredSize(
-      preferredSize: Size(context.screenWidth, 50),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 24),
-        color: Colors.black
-            .withOpacity((scrollOffset / 350).clamp(0, 1).toDouble()),
-        child: SafeArea(
-          child: Row(
-            children: [
-              Image.asset(Assets.netflixLogo0),
-              12.heightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _AppBarButton(
-                    title: 'TV Shows',
-                    onTap: () => 'TV Shows',
-                  ),
-                  _AppBarButton(
-                    title: 'Movies',
-                    onTap: () => 'Movies',
-                  ),
-                  _AppBarButton(
-                    title: 'My List',
-                    onTap: () => 'My List',
-                  ),
-                ],
-              ).expand()
-            ],
-          ),
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 24),
+      color:
+          Colors.black.withOpacity((scrollOffset / 350).clamp(0, 1).toDouble()),
+      child: SafeArea(
+        child: Row(
+          children: [
+            Image.asset(Assets.netflixLogo0),
+            12.heightBox,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _AppBarButton(
+                  title: 'TV Shows',
+                  onTap: () => 'TV Shows',
+                ),
+                _AppBarButton(
+                  title: 'Movies',
+                  onTap: () => 'Movies',
+                ),
+                _AppBarButton(
+                  title: 'My List',
+                  onTap: () => 'My List',
+                ),
+              ],
+            ).expand()
+          ],
         ),
       ),
     );

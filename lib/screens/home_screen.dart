@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:netflix_ui_clone_flutter/data/data.dart';
 import 'package:netflix_ui_clone_flutter/widgets/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class HomeScreen extends HookWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,13 +18,16 @@ class HomeScreen extends HookWidget {
     }, [_scrollController]);
 
     return Scaffold(
-      appBar: MyAppBar(
-        scrollOffset: _scrollOffset,
-      ) as PreferredSize,
+      appBar: PreferredSize(
+        preferredSize: Size(context.screenWidth, 50),
+        child: MyAppBar(
+          scrollOffset: _scrollOffset,
+        ),
+      ),
       extendBodyBehindAppBar: true,
       body: CustomScrollView(
         controller: _scrollController,
-        slivers: [
+        slivers: const [
           SliverToBoxAdapter(
             child: ContentHeader(
               featuredContent: sintelContent,
