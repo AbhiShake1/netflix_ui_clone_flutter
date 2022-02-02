@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   video_player: ^2.2.16
   hooks_riverpod: ^1.0.3
+  velocity_x: ^3.4.0
 
 dev_dependencies:
   flutter_test:
