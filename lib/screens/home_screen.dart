@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netflix_ui_clone_flutter/data/data.dart';
 import 'package:netflix_ui_clone_flutter/widgets/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -19,13 +20,13 @@ class HomeScreen extends HookWidget {
       appBar: MyAppBar(
         scrollOffset: _scrollOffset,
       ) as PreferredSize,
+      extendBodyBehindAppBar: true,
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
           SliverToBoxAdapter(
-            child: Container(
-              height: 1000,
-              color: Colors.blue,
+            child: ContentHeader(
+              featuredContent: sintelContent,
             ),
           )
         ],
