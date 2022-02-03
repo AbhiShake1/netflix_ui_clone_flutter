@@ -14,7 +14,7 @@ class HomeScreen extends HookWidget {
     useEffect(() {
       _scrollController
           .addListener(() => _scrollOffset = _scrollController.offset);
-      return () => _scrollController.dispose();
+      return _scrollController.dispose;
     }, [_scrollController]);
 
     return Scaffold(
@@ -26,6 +26,7 @@ class HomeScreen extends HookWidget {
       ),
       extendBodyBehindAppBar: true,
       body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
         controller: _scrollController,
         slivers: const [
           SliverToBoxAdapter(
@@ -41,7 +42,29 @@ class HomeScreen extends HookWidget {
                 contentList: previews,
               ),
             ),
-          )
+          ),
+          SliverToBoxAdapter(
+            child: ContentList(
+              title: 'My List',
+              contentList: myList,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: ContentList(
+              title: 'Netflix Originals',
+              contentList: originals,
+              isOriginals: true,
+            ),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.only(bottom: 20),
+            sliver: SliverToBoxAdapter(
+              child: ContentList(
+                title: 'Trending',
+                contentList: trending,
+              ),
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

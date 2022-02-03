@@ -15,6 +15,7 @@ class Previews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         title.text.white.size(20).bold.make().px(24),
         SizedBox(
