@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:netflix_ui_clone_flutter/extensions.dart';
 import 'package:netflix_ui_clone_flutter/models/content_model.dart';
+import 'package:netflix_ui_clone_flutter/providers/video_providers.dart';
 import 'package:netflix_ui_clone_flutter/widgets/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:video_player/video_player.dart';
@@ -35,14 +37,13 @@ class _ContentHeaderDesktop extends StatefulWidget {
 
 class _ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
   late VideoPlayerController _videoController;
-  bool _isMuted = true;
 
   @override
   void initState() {
     super.initState();
     _videoController =
         VideoPlayerController.network(widget.featuredContent.videoUrl!)
-          ..initialize().then((value) => setState(() {}))
+          ..initialize()
           ..setVolume(0)
           ..play();
   }
@@ -53,14 +54,12 @@ class _ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
     _videoController.dispose();
   }
 
-  void _playPauseVideo() => _videoController.value.isPlaying
-      ? _videoController.pause()
-      : _videoController.play();
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _playPauseVideo,
+      onTap: () => _videoController.value.isPlaying
+          ? _videoController.pause()
+          : _videoController.play(),
       child: Stack(
         alignment: Alignment.bottomLeft,
         children: [
@@ -155,17 +154,19 @@ class _ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
               right: 40,
               bottom: 150,
               child: IconButton(
-                icon: Icon(
-                  _isMuted ? Icons.volume_off : Icons.volume_up,
-                  color: Colors.white.withOpacity(0.6),
+                icon: HookConsumer(
+                  builder: (context, ref, child) => Icon(
+                    ref.watch(videoMutedRef) ? Icons.volume_off : Icons.volume_up,
+                    color: Colors.white.withOpacity(0.6),
+                  ),
                 ),
                 iconSize: 30,
-                onPressed: () => setState(
-                  () {
-                    _videoController.setVolume(_isMuted ? 100 : 0);
-                    _isMuted = _videoController.value.volume == 0;
-                  },
-                ),
+                onPressed: () {
+                  final mRef = ProviderScope.containerOf(context)
+                      .read(videoMutedRef.notifier);
+                  _videoController.setVolume(mRef.isMuted ? 100 : 0);
+                  mRef.isMuted = _videoController.value.volume == 0;
+                },
               ),
             )
         ],
