@@ -12,65 +12,65 @@ class HomeScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final scrollController = useScrollController();
-    return HookConsumer(
-      builder: (context, ref, child) => Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size(context.screenWidth, 50),
-          child: MyAppBar(
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size(context.screenWidth, 50),
+        child: HookConsumer(
+          builder: (context, ref, child) => MyAppBar(
             scrollOffset: ref.watch(scrollOffsetRef),
           ),
         ),
-        extendBodyBehindAppBar: true,
-        body: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          controller: scrollController
-            ..addListener(() => ref.read(scrollOffsetRef.notifier).scrollOffset =
-                scrollController.offset),
-          slivers: const [
-            SliverToBoxAdapter(
-              child: ContentHeader(
-                featuredContent: sintelContent,
-              ),
-            ),
-            SliverPadding(
-              padding: EdgeInsets.only(top: 20),
-              sliver: SliverToBoxAdapter(
-                child: Previews(
-                  title: 'Previews',
-                  contentList: previews,
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: ContentList(
-                title: 'My List',
-                contentList: myList,
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: ContentList(
-                title: 'Netflix Originals',
-                contentList: originals,
-                isOriginals: true,
-              ),
-            ),
-            SliverPadding(
-              padding: EdgeInsets.only(bottom: 20),
-              sliver: SliverToBoxAdapter(
-                child: ContentList(
-                  title: 'Trending',
-                  contentList: trending,
-                ),
-              ),
-            ),
-          ],
-        ),
-        floatingActionButton: child,
       ),
-      child: FloatingActionButton(
+      extendBodyBehindAppBar: true,
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        controller: scrollController
+          ..addListener(() => ProviderScope.containerOf(context)
+              .read(scrollOffsetRef.notifier)
+              .scrollOffset = scrollController.offset),
+        slivers: const [
+          SliverToBoxAdapter(
+            child: ContentHeader(
+              featuredContent: sintelContent,
+            ),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.only(top: 20),
+            sliver: SliverToBoxAdapter(
+              child: Previews(
+                title: 'Previews',
+                contentList: previews,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: ContentList(
+              title: 'My List',
+              contentList: myList,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: ContentList(
+              title: 'Netflix Originals',
+              contentList: originals,
+              isOriginals: true,
+            ),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.only(bottom: 20),
+            sliver: SliverToBoxAdapter(
+              child: ContentList(
+                title: 'Trending',
+                contentList: trending,
+              ),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.grey[850],
         child: const Icon(Icons.cast),
-        onPressed: () => 'Cast',
+        onPressed: () => print('Cast'),
       ),
     );
   }
